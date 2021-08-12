@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    <title>风控白名单</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+        function auditApply() {
+            let apply_no = $('#apply-no').val();
+            $.get("/process_apply/" + apply_no, auditCallback);
+        }
+
+        function auditCallback(resp, status) {
+            console.log(status);
+            console.log(resp);
+            document.getElementById("risk-process-result").innerHTML = JSON.stringify(resp, undefined, 2);
+            $("#risk-process-result").removeClass("hide");
+        }
+
+        function queryWL(type) {
+            postWL(type, "query")
+        }
+
+        function insertWL(type) {
+            postWL(type, "insert")
+        }
+
+        function removeWL(type) {
+            postWL(type, "remove")
+        }
+
+        function postWL(type, method) {
+            const val = $('#' + type).val();
+            let data = {
+                method: method,
+                sign: method[0] + (parseInt(val) + 1).toString(16)
+            };
+            data[type] = val;
+            const post_data = JSON.stringify(data);
+            console.log(post_data);
+            $.ajax({
+                url: "/api/v1/wl",
+                type: "POST",
+                data: post_data,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status === 0) {
+                        if (method === "query") {
+                            setWLResult("found: " + data.data)
+                        } else {
+                            setWLResult("success: " + data.data)
+                        }
+                    } else {
+                        setWLResult("error: " + data.msg)
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    setWLResult("error: " + data)
+                }
+            });
+        }
+
+        function setWLResult(text) {
+            document.getElementById("wl-status").innerHTML = text;
+            $("#wl-status").removeClass("hide");
+        }
+
+    </script>
+</head>
+
+<body onload="">
+
+<div class="container" id="wl-panel">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">风控审核</h2>
+                    <div>
+                        <form class="form" id="audit-apply">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control"
+                                           id="apply-no"
+                                           name="rule-version"
+                                           placeholder="apply_no">
+                                </div>
+                            </div>
+                            <button id="audit-apply-no" type="button"
+                                    onclick="auditApply()"
+                                    class="btn btn-primary">指定订单审核
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <pre id="risk-process-result" class="hide"></pre>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">白名单操作</h2>
+                    <div>生产环境白名单2小时有效，测试环境永久</div>
+                    <div>
+                        <form class="form" id="bvn_wl">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control"
+                                           id="bvn"
+                                           name="rule-version"
+                                           placeholder="bvn">
+                                </div>
+                            </div>
+                            <button id="query-bvn-wl" type="button"
+                                    onclick="queryWL('bvn')"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button id="insert-bvn-wl" type="button"
+                                    onclick="insertWL('bvn')"
+                                    class="btn btn-primary">添加
+                            </button>
+                            <button id="remove-bvn-wl" type="button"
+                                    onclick="removeWL('bvn')"
+                                    class="btn btn-primary">删除
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <form class="form" id="mobile_wl">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control"
+                                           id="mobile"
+                                           name="rule-version"
+                                           placeholder="mobile">
+                                </div>
+                            </div>
+                            <button id="query-mobile-wl" type="button"
+                                    onclick="queryWL('mobile')"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button id="insert-mobile-wl" type="button"
+                                    onclick="insertWL('mobile')"
+                                    class="btn btn-primary">添加
+                            </button>
+                            <button id="remove-mobile-wl" type="button"
+                                    onclick="removeWL('mobile')"
+                                    class="btn btn-primary">删除
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <pre id="wl-status" class=" hide"></pre>
+    </div>
+</div>
+
+</body>
+
+</html>

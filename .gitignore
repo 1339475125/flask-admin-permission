@@ -1,0 +1,13 @@
+*~
+*.pyc
+logs
+venv*
+nohup.out
+.idea
+.git
+.niogit
+.security
+.vscode
+.DS_Store
+.index
+conf/config.yaml

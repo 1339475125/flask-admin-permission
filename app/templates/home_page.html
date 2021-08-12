@@ -1,0 +1,7 @@
+{% extends "common/page_base.html" %}
+
+{% block content %}
+    <h2>首页</h2>
+    <p><a href={{ url_for('user.login') }}>普通用户登陆</a></p>
+    <p><a href={{ url_for('user.login') }}>admin管理登陆</a> </p>
+{% endblock %}

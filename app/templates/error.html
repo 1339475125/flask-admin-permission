@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<!-- Bootstrap -->
+<link  href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"  rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style type="text/css">
+  .list-group{
+    max-height: 600px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+</style>
+</head>
+<body>
+<!--
+{
+  "error_reason": "user not found", 
+  "ts": "20190723113303"
+}
+-->
+<div class="card">
+  <div class="card-body">
+	<h3>Error: {{msg['error_reason']}}</h3>
+	{% if traceMsg is not none %}
+	<span>Trace Message For Debug:</span>
+	<p>
+	  {{traceMsg}}
+	</p>
+	{% endif %}
+  </div>
+</div>
+</body>
+</html>
