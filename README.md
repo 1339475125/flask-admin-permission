@@ -15,7 +15,7 @@
   
 * 创建环境
   
-* 在项目当前目录，执行: virtualenv --system-site-packages --python=python2.7 venv
+* 在项目当前目录，执行: virtualenv --system-site-packages --python=python3.8.2 venv
   
 * 启动/关闭环境
   * 在项目目录，执行: source venv/bin/activate 启动python虚拟环境
