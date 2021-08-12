@@ -23,7 +23,7 @@
 
 * 安装依赖(只安装一次)
   
-  * 进入python虚拟环境后，在项目目录，执行: pip -r requirements.txt
+  * 进入python虚拟环境后，在项目目录，执行: pip install -r requirements.txt
   
 
 * 安装mysql 5.7
